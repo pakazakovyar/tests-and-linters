@@ -4,14 +4,25 @@ on:
   push: 
     branches: 
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs: 
-  tests: 
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Do tests
         run: echo "Start tests"
-      
+      - name: cloning repo
+        uses: action/checkout@2
+      - name: Set up python
+        uses: actions/setup-python@2
+        with:
+          python-version: '3.12'
+      - name: Run tests
+        run: |
+          python -m Tests.py -v
 
 
   linters:
@@ -19,4 +30,20 @@ jobs:
     steps:
       - name: Do linters
         run: echo "Start linters"
-      
+      - name: cloning repo
+        uses: action/checkout@2
+      - name: Set up python
+        uses: actions/setup-python@2
+        with:
+          python-version: '3.12'
+      - name: Install libs
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run pylint
+        run: |
+          pylint Calculator.py Tests.py
+      - name: Run flake8
+        run: |
+          flake8 Calculator.py Tests.py
+
