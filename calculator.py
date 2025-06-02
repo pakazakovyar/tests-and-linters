@@ -1,8 +1,17 @@
+"""Модуль для вычисления математических выражений в инфиксной и постфиксной форме."""
+
+
 class Calculator:
+    """Калькулятор, преобразующий инфиксные выражения в постфиксные и вычисляющий их."""
+
     def __init__(self):
+        """Инициализация приоритетов операторов."""
         self.precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
 
+
+
     def infix_to_postfix(self, expression):
+        """Преобразует инфиксное выражение в постфиксное (обратную польскую запись)."""
         stack = []
         postfix = []
         i = 0
@@ -23,7 +32,7 @@ class Calculator:
                 postfix.append(''.join(num))
                 continue
 
-            elif char == '(':
+            if char == '(':
                 stack.append(char)
             elif char == ')':
                 while stack and stack[-1] != '(':
@@ -49,6 +58,7 @@ class Calculator:
         return ' '.join(postfix)
 
     def evaluate_postfix(self, postfix_expression):
+        """Вычисляет значение выражения в постфиксной форме."""
         stack = []
         tokens = postfix_expression.split()
 
@@ -80,6 +90,7 @@ class Calculator:
         return stack[0]
 
     def calculate(self, expression):
+        """Вычисляет результат инфиксного выражения."""
         postfix = self.infix_to_postfix(expression)
         result = self.evaluate_postfix(postfix)
         return result

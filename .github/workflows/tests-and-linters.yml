@@ -22,7 +22,7 @@ jobs:
           python-version: '3.12'
       - name: Run tests
         run: |
-          python Tests.py 
+          python tests.py 
 
 
   linters:
@@ -42,8 +42,8 @@ jobs:
           pip install -r requirements.txt
       - name: Run pylint
         run: |
-          pylint Calculator.py Tests.py
+          pylint  --rcfile=.pylintrc calculator.py tests.py
       - name: Run flake8
         run: |
-          flake8 Calculator.py Tests.py
+          flake8 calculator.py tests.py
 
