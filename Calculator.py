@@ -1,4 +1,3 @@
-
 class Calculator:
     def __init__(self):
         self.precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
@@ -29,8 +28,12 @@ class Calculator:
             elif char == ')':
                 while stack and stack[-1] != '(':
                     postfix.append(stack.pop())
+                if not stack:
+                    raise ValueError("Несогласованные скобки")
                 stack.pop()
             else:
+                if char not in self.precedence:
+                    raise ValueError(f"Неизвестный оператор: {char}")
                 while (stack and stack[-1] != '(' and
                        self.precedence.get(stack[-1], 0) >= self.precedence.get(char, 0)):
                     postfix.append(stack.pop())
@@ -39,6 +42,8 @@ class Calculator:
             i += 1
 
         while stack:
+            if stack[-1] == '(':
+                raise ValueError("Несогласованные скобки")
             postfix.append(stack.pop())
 
         return ' '.join(postfix)
@@ -51,6 +56,8 @@ class Calculator:
             if token.replace('.', '').isdigit():
                 stack.append(float(token))
             else:
+                if len(stack) < 2:
+                    raise ValueError("Недостаточно операндов для оператора")
                 right = stack.pop()
                 left = stack.pop()
 
@@ -61,30 +68,18 @@ class Calculator:
                 elif token == '*':
                     stack.append(left * right)
                 elif token == '/':
+                    if right == 0:
+                        raise ZeroDivisionError("Деление на ноль")
                     stack.append(left / right)
+                else:
+                    raise ValueError(f"Неизвестный оператор: {token}")
+
+        if len(stack) != 1:
+            raise ValueError("Некорректное выражение")
 
         return stack[0]
 
     def calculate(self, expression):
-        try:
-            postfix = self.infix_to_postfix(expression)
-            result = self.evaluate_postfix(postfix)
-            return result
-        except Exception as e:
-            return f"Ошибка: {str(e)}"
-
-
-if __name__ == "__main__":
-    calc = Calculator()
-    while True:
-        print("\nВведите арифметическое выражение (или 'exit' для выхода):")
-        user_input = input().strip()
-
-        if user_input.lower() == 'exit':
-            break
-
-        if not user_input:
-            continue
-
-        result = calc.calculate(user_input)
-        print(f"Результат: {result}")
+        postfix = self.infix_to_postfix(expression)
+        result = self.evaluate_postfix(postfix)
+        return result
