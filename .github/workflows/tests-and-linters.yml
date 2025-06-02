@@ -15,9 +15,9 @@ jobs:
       - name: Do tests
         run: echo "Start tests"
       - name: cloning repo
-        uses: action/checkout@2
+        uses: actions/checkout@v4
       - name: Set up python
-        uses: actions/setup-python@2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.12'
       - name: Run tests
@@ -31,9 +31,9 @@ jobs:
       - name: Do linters
         run: echo "Start linters"
       - name: cloning repo
-        uses: action/checkout@2
+        uses: actions/checkout@v4
       - name: Set up python
-        uses: actions/setup-python@2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.12'
       - name: Install libs
