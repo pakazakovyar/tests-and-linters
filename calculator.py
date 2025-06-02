@@ -1,17 +1,18 @@
-"""Модуль для вычисления математических выражений в инфиксной и постфиксной форме."""
+"""Модуль для вычисления математических
+выражений в инфиксной и постфиксной форме."""
 
 
 class Calculator:
-    """Калькулятор, преобразующий инфиксные выражения в постфиксные и вычисляющий их."""
+    """Калькулятор, преобразующий инфиксные
+     выражения в постфиксные и вычисляющий их."""
 
     def __init__(self):
         """Инициализация приоритетов операторов."""
         self.precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
 
-
-
     def infix_to_postfix(self, expression):
-        """Преобразует инфиксное выражение в постфиксное (обратную польскую запись)."""
+        """Преобразует инфиксное выражение в
+        постфиксное (обратную польскую запись)."""
         stack = []
         postfix = []
         i = 0
@@ -26,7 +27,8 @@ class Calculator:
 
             if char.isdigit():
                 num = []
-                while i < n and (expression[i].isdigit() or expression[i] == '.'):
+                while i < n and (expression[i].isdigit() or
+                                 expression[i] == '.'):
                     num.append(expression[i])
                     i += 1
                 postfix.append(''.join(num))
@@ -44,7 +46,8 @@ class Calculator:
                 if char not in self.precedence:
                     raise ValueError(f"Неизвестный оператор: {char}")
                 while (stack and stack[-1] != '(' and
-                       self.precedence.get(stack[-1], 0) >= self.precedence.get(char, 0)):
+                       self.precedence.get(stack[-1], 0)
+                       >= self.precedence.get(char, 0)):
                     postfix.append(stack.pop())
                 stack.append(char)
 
