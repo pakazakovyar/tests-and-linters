@@ -40,6 +40,11 @@ class TestCalculator(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.calc.calculate("2 & 3")
 
+    def test_infix_to_postfix_conversion(self):
+        """Проверка правильности преобразования в постфиксную запись."""
+        self.assertEqual(self.calc.infix_to_postfix("2 + 3"), "2 3 +")
+        self.assertEqual(self.calc.infix_to_postfix("2 + 3 * 4"), "2 3 4 * +")
+
 
 if __name__ == '__main__':
     unittest.main()
